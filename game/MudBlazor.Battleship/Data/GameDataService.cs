@@ -10,10 +10,10 @@ namespace MudBlazor.Battleship.Data
         public Task<User> GetUser(string username);
         public Task<bool> AddUser(User user);
     }
-    public class GameDataService : IGameData
+    public class GameData : IGameData
     {
-        public GameData Context { init; protected get; }
-        public GameDataService(GameData context)
+        public GameDataContext Context { init; protected get; }
+        public GameData(GameDataContext context)
         {
             Context = context;
         }

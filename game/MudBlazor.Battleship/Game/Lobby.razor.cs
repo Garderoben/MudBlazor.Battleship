@@ -22,8 +22,9 @@ namespace MudBlazor.Battleship.Game
         private List<GameLobby> _lobbys = new List<GameLobby>();
 
         [Inject] public NavigationManager NavigationManager { get; set; }
-        [Inject] public GameMode GameMode { get; set; }
-        [Inject] public IGameData GameData { get; set; }
+        [Inject] private GameMode GameMode { get; set; }
+        [Inject] private IGameData GameData { get; set; }
+        [Inject] private ISnackbar Snackbar { get; set; }
 
         private MudTextField<string> ChatTextField;
         private ChatMessage Message;
@@ -44,7 +45,15 @@ namespace MudBlazor.Battleship.Game
 
             if (ExsistingUser == null)
             {
-                await GameData.AddUser(NewUser);
+                try
+                {
+                    await GameData.AddUser(NewUser);
+                }
+                catch
+                {
+                    Snackbar.Add("Failed to add new user", Severity.Error);
+                    throw;
+                }
             }
 
             isSignedIn = true;
