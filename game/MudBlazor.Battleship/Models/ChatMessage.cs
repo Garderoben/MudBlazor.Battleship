@@ -10,7 +10,5 @@
             Username = userName;
             Message = message;
         }
-
-       
     }
 }

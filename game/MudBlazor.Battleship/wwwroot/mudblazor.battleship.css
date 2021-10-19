@@ -1,0 +1,93 @@
+﻿.mudblazor-battleship-appbar-text {
+    letter-spacing: .5rem;
+    font-weight: 300;
+    margin-left: 12px;
+    font-size: 24px;
+    user-select: none;
+}
+.mudblazor-battleship-old {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: 500px 600px;
+    background-image: url(/MudBlazor.Battleship.svg);
+}
+
+
+
+.mudblazor-battleship-bg{
+    height:100%;
+    width:100%;
+    position:fixed;
+    left:0;
+    bottom:0;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    z-index: -1;
+}
+.mudblazor-battleship {
+    margin-top:auto;
+    height:60%;
+    width:100%;
+    position:relative;
+}
+
+.mudblazor-battleship-ship-color0 {
+    fill: #303030;
+}
+
+.mudblazor-battleship-ship-color1 {
+    fill: #919191
+}
+
+.mudblazor-battleship-ocean {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    left:0;
+    bottom:0;
+}
+
+.battleship-border-bottom {
+    border-bottom: 1px solid var(--mud-palette-table-lines);
+}
+
+.battleship-lobby-chat-input-field {
+    border-radius: 8px;
+    background-color: var(--mud-palette-background);
+}
+
+    .battleship-lobby-chat-input-field .mud-input-outlined-border {
+        border: none !important;
+    }
+
+.battleship-lobby-score-card .mud-progress-linear {
+    transform: rotate(270deg);
+    margin-top: 50%;
+    border-radius: var(--mud-default-borderradius);
+}
+
+    .battleship-lobby-score-card .mud-progress-linear .mud-progress-linear-bar {
+        border-radius: var(--mud-default-borderradius);
+    }
+
+.battleship-lobby-score-card p {
+    font-size: .875rem;
+    font-weight: 500;
+    line-height:normal;
+}
+
+    .battleship-lobby-score-card p + p {
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+        .battleship-lobby-score-card p + p + p {
+            font-size: .625rem;
+            font-weight: 500;
+        }

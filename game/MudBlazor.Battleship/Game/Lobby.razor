@@ -1,21 +1,129 @@
 ﻿
-<h3>Lobby</h3> <MudButton OnClick="@(() => LobbyMessage(user.Name, "hellloo"))">AddLobbyMessage</MudButton>
 
-<div class="d-flex">
-    <MudTextField @bind-Value="@user.Name" Label="Username" Variant="Variant.Outlined" />
-    <MudButton OnClick="@(() => SignIn())" DisableElevation="true">Sign in</MudButton>
-</div>
-
-@foreach(var users in GameMode.GetUsers())
+@if(!isSignedIn)
 {
-    <MudText>@users.Name;</MudText>
-    <MudText>@users.ConnectionId;</MudText>
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="3" lg="2" Class="d-flex">
+            <MudPaper Elevation="0" Height="300px" Width="100%" Class="mud-transparent mt-0 mt-md-16 pt-md-16">
+                <MudText Typo="Typo.h5">Sign In</MudText>
+                <EditForm Model="@SignInForm" OnValidSubmit="SignIn">
+                <DataAnnotationsValidator />
+                <div class="d-flex align-center" style="height:100px">
+                        <MudTextField @bind-Value="@SignInForm.Username" For="@(() => SignInForm.Username)" Label="Username" Variant="Variant.Text" />
+                </div>
+                <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" DisableElevation="true" FullWidth="true" Class="mt-6">Sign In</MudButton>
+            </EditForm>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
 }
-
-@if (isSignedIn)
+else if(isSignedIn)
 {
-    @foreach(var chat in _messages)
-    {
-        <MudText>@($"{chat.Username}:{chat.Message}")</MudText>
-    }
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="3">
+            <MudPaper MinHeight="50vh" Height="100%" Elevation="0" Class="py-4">
+                <div class="px-5 pb-2 mb-2 battleship-border-bottom">
+                    <MudText Typo="Typo.h5">@user.Name</MudText>
+                </div>
+                <MudGrid Spacing="0">
+                    <MudItem xs="6">
+                        <MudPaper Height="50px" Class="d-flex flex-grow-1 my-4 battleship-lobby-score-card" Elevation="0">
+                            <div style="width:50px;">
+                                <MudProgressLinear Color="Color.Primary" Value="70" />
+                            </div>
+                             <div class="flex-grow-1">
+                                <MudText Color="Color.Primary">Rank</MudText>
+                                <MudText>20</MudText>
+                                <MudText Color="Color.Primary">Top 31%</MudText>
+                            </div>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudPaper Height="50px" Class="d-flex flex-grow-1 my-4 battleship-lobby-score-card" Elevation="0">
+                            <div style="width:50px;">
+                                <MudProgressLinear Color="Color.Primary" Value="82" />
+                            </div>
+                             <div class="flex-grow-1">
+                                <MudText Color="Color.Primary">Games</MudText>
+                                <MudText>440</MudText>
+                                <MudText Color="Color.Primary">Top 18%</MudText>
+                            </div>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudPaper Height="50px" Class="d-flex flex-grow-1 my-4 battleship-lobby-score-card" Elevation="0">
+                            <div style="width:50px;">
+                                <MudProgressLinear Color="Color.Primary" Value="70" />
+                            </div>
+                             <div class="flex-grow-1">
+                                <MudText Color="Color.Primary">Wins</MudText>
+                                <MudText>121</MudText>
+                                <MudText Color="Color.Primary">Top 33%</MudText>
+                            </div>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudPaper Height="50px" Class="d-flex flex-grow-1 my-4 battleship-lobby-score-card" Elevation="0">
+                            <div style="width:50px;">
+                                <MudProgressLinear Color="Color.Primary" Value="82" />
+                            </div>
+                             <div class="flex-grow-1">
+                                <MudText Color="Color.Primary">Win %</MudText>
+                                <MudText>60%</MudText>
+                                <MudText Color="Color.Primary">Top 18%</MudText>
+                            </div>
+                        </MudPaper>
+                    </MudItem>
+                </MudGrid>
+               
+                @*@foreach(var users in GameMode.GetUsers())
+                {
+                    <MudText>@users.Name;</MudText>
+                    <MudText>@users.ConnectionId;</MudText>
+                }*@
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="12" md="6">
+            <MudTable Height="100%" Elevation="0" Items="@_lobbys" Hover="true">
+                <HeaderContent>
+                    <MudTh>#</MudTh>
+                    <MudTh>Lobby Name</MudTh>
+                    <MudTh>Players</MudTh>
+                    <MudTh>Status</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>
+                        @if(!string.IsNullOrEmpty(context.Password))
+                        {
+                            <MudIcon Icon="@Icons.Material.Filled.Shield" />
+                        }
+                    </MudTd>
+                    <MudTd>@context.Name</MudTd>
+                    <MudTd>@context.Players</MudTd>
+                    <MudTd>Ongoing</MudTd>
+                </RowTemplate>
+                <NoRecordsContent>
+                    <MudPaper MinHeight="50vh" Height="100%" Elevation="0" Class="pa-4 d-flex align-center justify-center">
+                        <MudText Typo="Typo.h5">No Hosted Lobbys</MudText>
+                    </MudPaper>
+                </NoRecordsContent>
+            </MudTable>
+        </MudItem>
+        <MudItem xs="12" sm="12" md="3">
+            <MudPaper MinHeight="50vh" Height="100%" Elevation="0" Class="py-4 d-flex flex-column">
+                 <div class="px-5 pb-2 mb-2  battleship-border-bottom">
+                    <MudText Typo="Typo.h5">Chat</MudText>
+                </div>
+                <div class="flex-grow-1 px-5">
+                    @foreach(var chat in _messages)
+                    {
+                        <MudText>@($"{chat.Username}:{chat.Message}")</MudText>
+                    } 
+                </div>
+                <div class="battleship-lobby-chat-input-field mx-4 px-2">
+                    <MudTextField @ref="ChatTextField" @bind-Value="Message.Message" OnKeyUp="@OnKeyUp" Variant="Variant.Outlined" Placeholder="Message" Margin="Margin.Dense" Class="my-0" />
+                </div>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>    
 }

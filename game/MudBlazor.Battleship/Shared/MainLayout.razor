@@ -1,20 +1,24 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider Theme="MudBlazorBattleship" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
     <MudAppBar Elevation="0">
-        <MudText Typo="Typo.h6">BATTLESHIP</MudText>
+        <MudText Typo="Typo.h5" Class="mudblazor-battleship-appbar-text">Battleship</MudText>
         <MudSpacer />
         <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/Garderoben/MudBlazor" Target="_blank" />
     </MudAppBar>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large" Class="my-16 pt-16">
+        <MudContainer MaxWidth="MaxWidth.False" Class="my-16 pt-16">
             @Body
         </MudContainer>
+        <div class="mudblazor-battleship-bg">
+            <MudBlazorBattleship />
+            <MudBlazorBattleshipOcean />
+        </div>
     </MudMainContent>
 </MudLayout>
 
@@ -25,4 +29,17 @@
     {
         _drawerOpen = !_drawerOpen;
     }
+
+    MudTheme MudBlazorBattleship = new MudTheme()
+    {
+        Palette = new Palette()
+        {
+            Background = "#f3f2f1",
+        },
+
+        LayoutProperties = new LayoutProperties()
+        {
+            AppbarHeight = "48px"
+        }
+    };
 }
