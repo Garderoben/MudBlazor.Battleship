@@ -1,0 +1,12 @@
+﻿ @using MudBlazor.Battleship.Models
+ @namespace MudBlazor.Battleship.Components
+
+<div class="battleship-chatmessage px-4 py-1">
+    <MudText Typo="Typo.subtitle1" Color="@Color">@Data.Username</MudText>
+    <MudText Typo="Typo.body2">@Data.Message</MudText>
+</div>
+
+@code {
+    [Parameter] public ChatMessage Data { get; set; }
+    [Parameter] public Color Color { get; set; }
+}

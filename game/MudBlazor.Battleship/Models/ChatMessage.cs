@@ -5,9 +5,9 @@
         public string Username { get; set; }
         public string Message { get; set; }
 
-        public ChatMessage(string userName, string message)
+        public ChatMessage(string username, string message)
         {
-            Username = userName;
+            Username = username;
             Message = message;
         }
     }

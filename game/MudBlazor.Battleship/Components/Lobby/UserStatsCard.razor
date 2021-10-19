@@ -1,0 +1,20 @@
+﻿ @using MudBlazor.Battleship.Models
+ @namespace MudBlazor.Battleship.Components
+
+ <MudItem xs="6">
+    <MudPaper Height="50px" Class="d-flex flex-grow-1 my-4 battleship-lobby-score-card" Elevation="0">
+        <div style="width:50px;">
+            <MudProgressLinear Color="Color.Primary" Value="70" />
+        </div>
+            <div class="flex-grow-1">
+            <MudText Color="Color.Primary">@UserStats.Title</MudText>
+            <MudText>@UserStats.Value</MudText>
+            <MudText Color="Color.Primary">@UserStats.Description</MudText>
+        </div>
+    </MudPaper>
+</MudItem>
+
+
+@code {
+    [Parameter] public UserStats UserStats { get; set; }
+}

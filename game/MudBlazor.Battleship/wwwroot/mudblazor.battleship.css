@@ -5,19 +5,6 @@
     font-size: 24px;
     user-select: none;
 }
-.mudblazor-battleship-old {
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    position: fixed;
-    background-position: center bottom;
-    background-repeat: no-repeat;
-    background-size: 500px 600px;
-    background-image: url(/MudBlazor.Battleship.svg);
-}
-
-
 
 .mudblazor-battleship-bg{
     height:100%;
@@ -53,14 +40,26 @@
     bottom:0;
 }
 
-.battleship-border-bottom {
+.battleship-lobby-card-header {
     border-bottom: 1px solid var(--mud-palette-table-lines);
+}
+
+.battleship-lobby-card-header h5 {
+    line-height: normal
+}
+
+.battleship-chatmessage h6{
+    font-weight:500;
 }
 
 .battleship-lobby-chat-input-field {
     border-radius: 8px;
     background-color: var(--mud-palette-background);
 }
+
+    .battleship-lobby-chat-input-field input {
+        font-size: var(--mud-typography-body2-size) !important;
+    }
 
     .battleship-lobby-chat-input-field .mud-input-outlined-border {
         border: none !important;

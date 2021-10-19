@@ -7,8 +7,8 @@ namespace MudBlazor.Battleship.Data
 {
     public interface IGameData
     {
-        public Task<User> GetUser(string username);
-        public Task<bool> AddUser(User user);
+        public User GetUser(string username);
+        public bool AddUser(User user);
     }
     public class GameData : IGameData
     {
@@ -18,16 +18,16 @@ namespace MudBlazor.Battleship.Data
             Context = context;
         }
 
-        public async Task<User> GetUser(string username)
+        public User GetUser(string username)
         {
-            var result = await Context.Users.FindAsync(username);
+            var result = Context.Users.Find(username);
             return result;
+
         }
-        public async Task<bool> AddUser(User user)
+        public bool AddUser(User user)
         {
             Context.Users.Add(user);
-            await Context.SaveChangesAsync();
-
+            Context.SaveChanges();
             return true;
         }
     }

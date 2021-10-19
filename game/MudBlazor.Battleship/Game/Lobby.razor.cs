@@ -13,26 +13,25 @@ namespace MudBlazor.Battleship.Game
     public partial class Lobby : ComponentBase
     {
         HubConnection connection;
-        private User user = null;
-        private SignInForm SignInForm = new SignInForm();
+        private User user = new User();
         private bool isSignedIn;
 
 
-        private List<ChatMessage> _messages = new List<ChatMessage>();
-        private List<GameLobby> _lobbys = new List<GameLobby>();
+        public List<ChatMessage> _messages = new();
+        public List<GameLobby> _lobbys = new();
 
         [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] private GameMode GameMode { get; set; }
         [Inject] private IGameData GameData { get; set; }
         [Inject] private ISnackbar Snackbar { get; set; }
+        [Inject] private IDialogService Dialog { get; set; }
 
-        private MudTextField<string> ChatTextField;
-        private ChatMessage Message;
+        MudTextField<string> ChatTextField;
+        string NewMessage;
 
         protected override async Task OnInitializedAsync()
         {
             connection = new HubConnectionBuilder().WithUrl(NavigationManager.ToAbsoluteUri("/gamehub")).Build();
-
             connection.On<ChatMessage>(nameof (IGameClient.RecieveMessage), NewChatMessage);
 
             await connection.StartAsync();
@@ -40,14 +39,14 @@ namespace MudBlazor.Battleship.Game
 
         public async Task SignIn()
         {
-            var ExsistingUser = await GameData.GetUser(SignInForm.Username);
-            var NewUser = new User(SignInForm.Username, connection.ConnectionId);
+            var ExsistingUser = GameData.GetUser(user.Username);
+            var NewUser = new User(user.Username, connection.ConnectionId);
 
             if (ExsistingUser == null)
             {
                 try
                 {
-                    await GameData.AddUser(NewUser);
+                    GameData.AddUser(NewUser);
                 }
                 catch
                 {
@@ -55,6 +54,8 @@ namespace MudBlazor.Battleship.Game
                     throw;
                 }
             }
+
+            user = NewUser;
 
             isSignedIn = true;
 
@@ -76,13 +77,26 @@ namespace MudBlazor.Battleship.Game
 
         private void OnKeyUp(KeyboardEventArgs e)
         {
-            string newMessage = Message.Message;
-
             if (e.Code == "Enter")
             {
-                _ = LobbyMessage(user.Username, newMessage);
+                _ = LobbyMessage(user.Username, NewMessage);
                 ChatTextField.Clear();
                 StateHasChanged();
+            }
+        }
+
+        private async Task NewLobby()
+        {
+            var lobby = new GameLobby();
+            var parameters = new DialogParameters { ["lobby"] = lobby };
+
+            var dialog = Dialog.Show<NewLobby>("Create Lobby", parameters);
+            var result = await dialog.Result;
+
+            if (!result.Cancelled)
+            {
+                lobby = (GameLobby)result.Data;
+                _lobbys.Add(lobby);
             }
         }
     }

@@ -1,0 +1,40 @@
+﻿@using MudBlazor.Battleship.Models
+
+<MudDialog>
+    <DialogContent>
+        <EditForm Model="@Lobby" OnValidSubmit="AddNewLobby">
+            <DataAnnotationsValidator />
+            <MudTextField @bind-Value="Lobby.Name" For="@(() => Lobby.Name)" Label="Lobby name" />
+            <MudCheckBox Class="mt-4 mx-n2" T="bool" CheckedChanged="PrivateLobbyChanged" Label="Private Lobby" Color="Color.Primary" />
+            <MudTextField @ref="LobbyPwTextField" @bind-Value="Lobby.Password" Disabled="!PrivateLobby" For="@(() => Lobby.Password)" Label="Lobby password"/>
+        </EditForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel" Variant="Variant.Filled" DisableElevation="true">Cancel</MudButton>
+        <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" DisableElevation="true">Create Lobby</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public GameLobby Lobby { get; set; } = new GameLobby();
+
+    public bool PrivateLobby { get; set; } = false;
+    MudTextField<string> LobbyPwTextField;
+
+    private void PrivateLobbyChanged()
+    {
+        LobbyPwTextField.Clear();
+        PrivateLobby = !PrivateLobby;
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void AddNewLobby()
+    {
+        MudDialog.Close(DialogResult.Ok(Lobby));
+    }
+}
