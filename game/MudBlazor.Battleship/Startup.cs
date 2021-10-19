@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MudBlazor.Battleship.Data;
 
 namespace MudBlazor.Battleship
 {
@@ -39,6 +40,7 @@ namespace MudBlazor.Battleship
                 new[] { "application/octet-stream" });
             });
             services.AddSingleton<GameMode, InMemoryGamemode>();
+            services.AddScoped<IGameData, GameDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

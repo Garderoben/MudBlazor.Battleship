@@ -43,7 +43,7 @@ namespace MudBlazor.Battleship.Hubs
             if (user == null)
                 return;
 
-            await SendChat(user.Name, $"User {user.Name} has left the lobby");
+            await SendChat(user.Username, $"User {user.Username} has left the lobby");
 
             //await CleanupUserFromGames();
             //await CleanupUserFromUsersList();
@@ -53,10 +53,10 @@ namespace MudBlazor.Battleship.Hubs
 
         public async Task SignIn(string name)
         {
-            User user = new User(Context.ConnectionId, name);
+            User user = new User(name, Context.ConnectionId);
             gamemode.GetUsers().Add(user);
 
-            await SendChat(user.Name, $" has joined the lobby");
+            await SendChat(user.Username, $" has joined the lobby");
         }
 
         public async Task SendChat(string name, string message)

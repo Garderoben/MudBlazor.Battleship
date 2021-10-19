@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.SignalR.Client;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
+using System;
+using MudBlazor.Battleship.Data;
 
 namespace MudBlazor.Battleship.Game
 {
@@ -21,9 +23,10 @@ namespace MudBlazor.Battleship.Game
 
         [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] public GameMode GameMode { get; set; }
+        [Inject] public IGameData GameData { get; set; }
 
         private MudTextField<string> ChatTextField;
-        private ChatMessage Message { get; set; }
+        private ChatMessage Message;
 
         protected override async Task OnInitializedAsync()
         {
@@ -36,12 +39,18 @@ namespace MudBlazor.Battleship.Game
 
         public async Task SignIn()
         {
+            var ExsistingUser = await GameData.GetUser(SignInForm.Username);
+            var NewUser = new User(SignInForm.Username, connection.ConnectionId);
+
+            if (ExsistingUser == null)
+            {
+                await GameData.AddUser(NewUser);
+            }
+
             isSignedIn = true;
-            user = new User(connection.ConnectionId, SignInForm.Username);
-            Message = new ChatMessage(user.Name, null);
 
             await connection.InvokeAsync("JoinLobbyGroup", "lobby");
-            await connection.InvokeAsync("SignIn", user.Name);
+            await connection.InvokeAsync("SignIn", user.Username);
         }
 
         private void NewChatMessage(ChatMessage message)
@@ -62,7 +71,7 @@ namespace MudBlazor.Battleship.Game
 
             if (e.Code == "Enter")
             {
-                _ = LobbyMessage(user.Name, newMessage);
+                _ = LobbyMessage(user.Username, newMessage);
                 ChatTextField.Clear();
                 StateHasChanged();
             }
