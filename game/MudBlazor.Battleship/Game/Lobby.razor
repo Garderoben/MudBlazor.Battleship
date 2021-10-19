@@ -1,0 +1,21 @@
+﻿
+<h3>Lobby</h3> <MudButton OnClick="@(() => LobbyMessage(user.Name, "hellloo"))">AddLobbyMessage</MudButton>
+
+<div class="d-flex">
+    <MudTextField @bind-Value="@user.Name" Label="Username" Variant="Variant.Outlined" />
+    <MudButton OnClick="@(() => SignIn())" DisableElevation="true">Sign in</MudButton>
+</div>
+
+@foreach(var users in GameMode.GetUsers())
+{
+    <MudText>@users.Name;</MudText>
+    <MudText>@users.ConnectionId;</MudText>
+}
+
+@if (isSignedIn)
+{
+    @foreach(var chat in _messages)
+    {
+        <MudText>@($"{chat.Username}:{chat.Message}")</MudText>
+    }
+}

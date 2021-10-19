@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "b44ab602-be6c-4aad-81b3-7ffb0ad8f585": {
+      "ProjectGuid": "b44ab602-be6c-4aad-81b3-7ffb0ad8f585",
+      "DisplayName": "MudBlazor.Battleship",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
