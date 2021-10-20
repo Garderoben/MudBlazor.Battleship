@@ -16,7 +16,6 @@ namespace MudBlazor.Battleship.Game
     {
         [CascadingParameter] public GameStateHub Game { get; set; }
 
-        string NewMessage;
         GameLobby NewGameLobby;
 
         private bool isAddNewLobby;
@@ -25,8 +24,6 @@ namespace MudBlazor.Battleship.Game
 
         public List<ChatMessage> _messages = new();
         public List<GameLobby> _lobbys = new();
-
-        MudTextField<string> ChatTextField;
 
         protected override async Task OnInitializedAsync()
         {
@@ -40,32 +37,25 @@ namespace MudBlazor.Battleship.Game
 
                 Game.Hub.On<GameLobby>(nameof(IGameClient.RecieveLobby), RecieveGameLobby);
                 Game.Hub.On<ChatMessage>(nameof(IGameClient.RecieveMessage), RecieveChatMessage);
-                await Game.Hub.InvokeAsync("SignIn", Game.CurrentUser.Username);
+                
+                await Game.Hub.InvokeAsync("SignIn", Game.CurrentUser);
             }
         }
 
         #region Chat
-        private void RecieveChatMessage(ChatMessage message)
+        private void RecieveChatMessage(ChatMessage chat)
         {
-            _messages.Add(message);
+            _messages.Add(chat);
             StateHasChanged();
         }
 
-        public async Task SendChat(string name, string message)
+        public async Task SendChat(ChatMessage chat)
         {
-            await Game.Hub.InvokeAsync("SendChat", name, message);
+            await Game.Hub.InvokeAsync("SendChat", chat);
             StateHasChanged();
         }
 
-        private void OnKeyUp(KeyboardEventArgs e)
-        {
-            if (e.Code == "Enter")
-            {
-                _ = SendChat(Game.CurrentUser.Username, NewMessage);
-                ChatTextField.Clear();
-                StateHasChanged();
-            }
-        }
+        
         #endregion
 
         #region Lobby

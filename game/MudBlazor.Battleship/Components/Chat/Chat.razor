@@ -1,0 +1,44 @@
+﻿ @using MudBlazor.Battleship.Models
+ @namespace MudBlazor.Battleship.Components
+
+<MudPaper MinHeight="50vh" Height="100%" Elevation="0" Class="pb-4 d-flex flex-column">
+    <div class="px-5 py-3 mb-2  battleship-lobby-card-header">
+        <MudText Typo="Typo.h5">@Title</MudText>
+    </div>
+    <div class="flex-grow-1">
+        @foreach(var message in Messages)
+        {
+            <UserChatMessage Data="message" Color="@(Game.CurrentUser.Username == message.User.Username? Color.Primary : Color.Default)" />
+        } 
+    </div>
+    <div class="battleship-lobby-chat-input-field mx-4 px-2">
+        <MudTextField @ref="ChatTextField" @bind-Value="NewMessage" OnKeyUp="@OnKeyUp" Variant="Variant.Outlined" Placeholder="Message" Margin="Margin.Dense" Class="my-0" />
+    </div>
+</MudPaper>
+
+@code {
+    [CascadingParameter] public GameStateHub Game { get; set; }
+
+    [Parameter] public string Title { get; set; }
+    [Parameter] public List<ChatMessage> Messages { get; set; } = new();
+
+    string NewMessage;
+    MudTextField<string> ChatTextField;
+
+    public async Task SendChat(ChatMessage chat)
+    {
+        await Game.Hub.InvokeAsync("SendChat", chat);
+        StateHasChanged();
+    }
+
+
+    private void OnKeyUp(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter")
+        {
+            _ = SendChat(new ChatMessage(Game.CurrentUser, NewMessage));
+            ChatTextField.Clear();
+            StateHasChanged();
+        }
+    }
+}

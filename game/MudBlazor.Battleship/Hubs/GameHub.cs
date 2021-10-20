@@ -3,12 +3,14 @@ using MudBlazor.Battleship.Models;
 using Microsoft.AspNetCore.SignalR;
 using System.Linq;
 using MudBlazor.Battleship.Services;
+using MudBlazor.Extensions;
+using MudBlazor.Battleship.Enums;
 
 namespace MudBlazor.Battleship.Hubs
 {
     public interface IGameClient
     {
-        Task RecieveMessage(ChatMessage chatmessage);
+        Task RecieveMessage(ChatMessage chat);
         Task RecieveLobby(GameLobby lobby);
     }
 
@@ -45,31 +47,24 @@ namespace MudBlazor.Battleship.Hubs
             if (user == null)
                 return;
 
-            await SendChat(user.Username, $"User {user.Username} has left the lobby");
-
-            //await CleanupUserFromGames();
-            //await CleanupUserFromUsersList();
-
             await base.OnDisconnectedAsync(exception);
         }
         #endregion
-        public async Task SignIn(string name)
+        public async Task SignIn(User user)
         {
-            User user = new User(name, Context.ConnectionId);
             gamemode.OnlineUsers().Add(user);
-
-            await SendChat(user.Username, $" has joined the lobby");
+            await Clients.Group(user.ChatGroup).RecieveMessage(new ChatMessage(user, $"{user.Username} has joined the lobby"));
         }
 
-        public async Task SendChat(string name, string message)
+        public async Task SendChat(ChatMessage chat)
         {
-            await Clients.Group("lobby").RecieveMessage(new ChatMessage(name, message));
+            await Clients.Group(chat.User.ChatGroup).RecieveMessage(chat);
         }
 
         public async Task SendNewLobby(GameLobby lobby)
         {
             gamemode.Lobbys().Add(lobby);
-            await Clients.Group("lobby").RecieveLobby(lobby);
+            await Clients.Group(GroupType.Global.ToDescriptionString()).RecieveLobby(lobby);
         }
     }
 }

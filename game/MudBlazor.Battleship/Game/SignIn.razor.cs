@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.AspNetCore.Components;
 using MudBlazor.Battleship.Models;
+using MudBlazor.Battleship.Enums;
 using System.Threading.Tasks;
 
 namespace MudBlazor.Battleship.Game
@@ -10,26 +11,13 @@ namespace MudBlazor.Battleship.Game
         [CascadingParameter] public GameStateHub Game { get; set; }
 
         private User user = new User();
-        public async Task CheckUserDetails()
+        public async Task OnSignInClick()
         {
             Game.CurrentUser = user;
-            var ExsistingUser = Game.DbData.GetUser(user.Username);
-
-            if (ExsistingUser == null)
-            {
-                try
-                {
-                    Game.DbData.AddUser(Game.CurrentUser);
-                }
-                catch
-                {
-                    Snackbar.Add("Failed to add new user", Severity.Error);
-                    throw;
-                }
-            }
+            Game.DbData.AddUser(Game.CurrentUser);
             Game.isSignedIn = true;
 
-            await Game.Hub.InvokeAsync("JoinHubGroup", "lobby");
+            await Game.JoinChatGroup(GroupType.Global);
             NavMan.NavigateTo("game/lobby");
         }
     }

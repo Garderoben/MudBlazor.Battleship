@@ -1,13 +1,15 @@
-﻿namespace MudBlazor.Battleship.Models
+﻿using MudBlazor.Battleship.Enums;
+using MudBlazor.Extensions;
+
+namespace MudBlazor.Battleship.Models
 {
     public class ChatMessage
     {
-        public string Username { get; set; }
+        public User User { get; set; }
         public string Message { get; set; }
-
-        public ChatMessage(string username, string message)
+        public ChatMessage(User user, string message)
         {
-            Username = username;
+            User = user;
             Message = message;
         }
     }

@@ -1,9 +1,17 @@
 ﻿@layout GameStateHub
 @page "/game/lobby/{GameLobbyId:guid}"
 
-<MudText Color="Color.Default" Typo="Typo.h5" Inline="true">LobbyId:</MudText>
-<MudText Color="Color.Error" Typo="Typo.h5" Inline="true">@GameLobbyId</MudText>
-
-@code {
-    [Parameter] public Guid GameLobbyId { get; set; }
+@if(!Game.isSignedIn){
+    <MudGrid>
+        <MudItem xs="12" sm="9">
+            <MudPaper Elevation=0 Height="100%">
+                <div class="px-5 py-3 mb-2  battleship-lobby-card-header">
+                    <MudText Typo="Typo.h5">Game Settings</MudText>
+                </div>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="3">
+            <Chat Title="Lobby Chat" Connection="@Game.Hub" CurrentUser="@Game.CurrentUser" ChatMessages="_messages"/>
+        </MudItem>
+    </MudGrid>
 }

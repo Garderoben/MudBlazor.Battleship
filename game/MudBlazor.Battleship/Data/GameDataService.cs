@@ -7,7 +7,7 @@ namespace MudBlazor.Battleship.Data
 {
     public interface IGameDbData
     {
-        public User GetUser(string username);
+        public GameDataUser GetUser(string username);
         public bool AddUser(User user);
     }
     public class GameData : IGameDbData
@@ -18,14 +18,15 @@ namespace MudBlazor.Battleship.Data
             Context = context;
         }
 
-        public User GetUser(string username)
+        public GameDataUser GetUser(string username)
         {
             var result = Context.Users.Find(username);
             return result;
         }
         public bool AddUser(User user)
         {
-            Context.Users.Add(user);
+            GameDataUser DataUser = new GameDataUser { Id = user.Id, Username = user.Username };
+            Context.Users.Add(DataUser);
             Context.SaveChanges();
             return true;
         }

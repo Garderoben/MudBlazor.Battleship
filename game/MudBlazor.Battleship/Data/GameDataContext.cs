@@ -10,6 +10,6 @@ namespace MudBlazor.Battleship.Data
         public GameDataContext(DbContextOptions options) : base(options)
         {
         }
-        public DbSet<User> Users { get; set; }
+        public DbSet<GameDataUser> Users { get; set; }
     }
 }

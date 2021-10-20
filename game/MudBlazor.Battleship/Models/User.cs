@@ -3,18 +3,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MudBlazor.Battleship.Models
 {
-    public class User
+    public class GameDataUser
     {
-        [Key]
-        [Required]
-        [StringLength(12, ErrorMessage = "Lobby name can't be more than 12 characters.", MinimumLength = 4)]
+        public Guid Id { get; set; }
         public string Username { get; set; }
+    }
+
+    public class User : GameDataUser
+    {
+        public string ChatGroup { get; set; }
         public string ConnectionId { get; set; }
 
         public User() { }
-        public User(string username, string connectionId)
+        public User(Guid id, string username, string chatgroup, string connectionId)
         {
-            Username = username;
+            ChatGroup = chatgroup;
             ConnectionId = connectionId;
         }
     }
