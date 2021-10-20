@@ -34,7 +34,7 @@ namespace MudBlazor.Battleship.Game
         public async Task LeaveChatGroup(GroupType group, Guid id = default(Guid))
         {
             CurrentUser.ChatGroup = String.Empty;
-            await Hub.InvokeAsync("JoinHubGroup", GetChatGroupName(group, id));
+            await Hub.InvokeAsync("LeaveHubGroup", GetChatGroupName(group, id));
         }
 
         private string GetChatGroupName(GroupType group, Guid id = default(Guid))

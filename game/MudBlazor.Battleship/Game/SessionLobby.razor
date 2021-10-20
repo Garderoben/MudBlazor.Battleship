@@ -1,7 +1,7 @@
 ﻿@layout GameStateHub
 @page "/game/lobby/{GameLobbyId:guid}"
 
-@if(!Game.isSignedIn){
+@if(Game.isSignedIn){
     <MudGrid>
         <MudItem xs="12" sm="9">
             <MudPaper Elevation=0 Height="100%">
@@ -11,7 +11,7 @@
             </MudPaper>
         </MudItem>
         <MudItem xs="12" sm="3">
-            <Chat Title="Lobby Chat" Connection="@Game.Hub" CurrentUser="@Game.CurrentUser" ChatMessages="_messages"/>
+            <Chat Title="Lobby Chat" Messages="_messages"/>
         </MudItem>
     </MudGrid>
 }

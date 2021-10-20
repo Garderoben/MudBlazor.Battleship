@@ -24,7 +24,7 @@ namespace MudBlazor.Battleship.Game
             else
             {
                 Game.Hub.On<ChatMessage>(nameof(IGameClient.RecieveMessage), RecieveChatMessage);
-                await Game.Hub.InvokeAsync("SignIn", Game.CurrentUser.Username);
+                await Game.Hub.InvokeAsync("SignIn", Game.CurrentUser);
             }
         }
 

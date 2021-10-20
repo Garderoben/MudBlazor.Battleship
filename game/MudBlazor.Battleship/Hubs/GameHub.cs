@@ -12,6 +12,7 @@ namespace MudBlazor.Battleship.Hubs
     {
         Task RecieveMessage(ChatMessage chat);
         Task RecieveLobby(GameLobby lobby);
+        Task UpdateLobby(GameLobby lobby);
     }
 
     public class GameHub : Hub<IGameClient>
@@ -64,6 +65,13 @@ namespace MudBlazor.Battleship.Hubs
         public async Task SendNewLobby(GameLobby lobby)
         {
             gamemode.Lobbys().Add(lobby);
+            await Clients.Group(GroupType.Global.ToDescriptionString()).RecieveLobby(lobby);
+        }
+
+        public async Task SendUpdateLobby(GameLobby selected, User user)
+        {
+            var lobby = gamemode.Lobbys().Where(l => l.Id == selected.Id).First();
+            lobby.Players.Add(user);
             await Clients.Group(GroupType.Global.ToDescriptionString()).RecieveLobby(lobby);
         }
     }

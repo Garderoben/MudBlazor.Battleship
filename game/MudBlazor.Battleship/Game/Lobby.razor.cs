@@ -9,6 +9,7 @@ using System;
 using MudBlazor.Battleship.Data;
 using MudBlazor.Battleship.Services;
 using System.Linq;
+using MudBlazor.Battleship.Enums;
 
 namespace MudBlazor.Battleship.Game
 {
@@ -17,6 +18,7 @@ namespace MudBlazor.Battleship.Game
         [CascadingParameter] public GameStateHub Game { get; set; }
 
         GameLobby NewGameLobby;
+        GameLobby SelectedGameLobby;
 
         private bool isAddNewLobby;
         private bool isValidNewLobby;
@@ -48,14 +50,6 @@ namespace MudBlazor.Battleship.Game
             _messages.Add(chat);
             StateHasChanged();
         }
-
-        public async Task SendChat(ChatMessage chat)
-        {
-            await Game.Hub.InvokeAsync("SendChat", chat);
-            StateHasChanged();
-        }
-
-        
         #endregion
 
         #region Lobby
@@ -80,16 +74,31 @@ namespace MudBlazor.Battleship.Game
             NewGameLobby.Players.Add(Game.CurrentUser);
 
             await Game.Hub.InvokeAsync("SendNewLobby", NewGameLobby);
-            await JoinLobby(NewGameLobby.Id.ToString());
+            await CreateNewLobby(NewGameLobby.Id);
         }
 
-        private async Task JoinLobby(string lobbyId)
+        private async Task CreateNewLobby(Guid Id)
         {
-            await Game.Hub.InvokeAsync("LeaveHubGroup", "lobby");
-            await Game.Hub.InvokeAsync("JoinHubGroup", $"lobby-{lobbyId}");
+            await Game.LeaveChatGroup(GroupType.Global);
+            await Game.JoinChatGroup(GroupType.Lobby, Id);
 
-            NavMan.NavigateTo($"/game/lobby/{lobbyId}");
+            NavMan.NavigateTo($"/game/lobby/{Id}");
         }
         #endregion
+
+        private async Task JoinLobby()
+        {
+            if (SelectedGameLobby != null && SelectedGameLobby.Players.Count <= 2 )
+            {
+                SelectedGameLobby.Players.Add(Game.CurrentUser);
+
+                await Game.LeaveChatGroup(GroupType.Global);
+                await Game.JoinChatGroup(GroupType.Lobby, SelectedGameLobby.Id);
+
+                await Game.Hub.InvokeAsync("SendUpdateLobby", SelectedGameLobby, Game.CurrentUser);
+
+                NavMan.NavigateTo($"/game/lobby/{SelectedGameLobby.Id}");
+            }
+        }
     }
 }

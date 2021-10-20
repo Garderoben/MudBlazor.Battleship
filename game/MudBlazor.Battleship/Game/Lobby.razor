@@ -43,8 +43,8 @@
             </MudPaper>
         </MudItem>
         <MudItem xs="12" sm="12" md="6">
-            <MudPaper Elevation=0 Height="100%">
-                <MudTable Height="100%" Elevation="0" Items="@_lobbys" Hover="true" RowClass="cursor-pointer">
+            <MudPaper Elevation=0 Height="100%" Class="d-flex flex-column">
+                <MudTable Height="100%" Class="flex-grow-1" Elevation="0" Items="@_lobbys" Hover="true" RowClass="cursor-pointer" @bind-SelectedItem="@SelectedGameLobby">
                     <HeaderContent>
                         <MudTh>MAC</MudTh>
                         <MudTh>Lobby Name</MudTh>
@@ -75,6 +75,9 @@
                         </MudPaper>
                     </NoRecordsContent>
                 </MudTable>
+                <MudToolBar>
+                    <MudButton OnClick="JoinLobby" Disabled="@(SelectedGameLobby == null? true : false)" Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary">Join Lobby</MudButton>
+                </MudToolBar>
             </MudPaper>
         </MudItem>
         <MudItem xs="12" sm="12" md="3">
