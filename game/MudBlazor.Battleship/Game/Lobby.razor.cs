@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using System;
 using MudBlazor.Battleship.Data;
 using MudBlazor.Battleship.Services;
+using System.Linq;
 
 namespace MudBlazor.Battleship.Game
 {
@@ -35,13 +36,13 @@ namespace MudBlazor.Battleship.Game
             }
             else
             {
-                _lobbys = Game.Mode.Lobbys();
+                _lobbys = Game.Mode.Lobbys().ToList();
 
+                Game.Hub.On<GameLobby>(nameof(IGameClient.RecieveLobby), RecieveGameLobby);
                 Game.Hub.On<ChatMessage>(nameof(IGameClient.RecieveMessage), RecieveChatMessage);
                 await Game.Hub.InvokeAsync("SignIn", Game.CurrentUser.Username);
             }
         }
-
 
         #region Chat
         private void RecieveChatMessage(ChatMessage message)

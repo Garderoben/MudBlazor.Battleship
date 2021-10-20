@@ -12,6 +12,7 @@ namespace MudBlazor.Battleship.Game
         private User user = new User();
         public async Task CheckUserDetails()
         {
+            Game.CurrentUser = user;
             var ExsistingUser = Game.DbData.GetUser(user.Username);
 
             if (ExsistingUser == null)
@@ -26,8 +27,6 @@ namespace MudBlazor.Battleship.Game
                     throw;
                 }
             }
-
-            Game.CurrentUser = user;
             Game.isSignedIn = true;
 
             await Game.Hub.InvokeAsync("JoinHubGroup", "lobby");

@@ -22,7 +22,6 @@ namespace MudBlazor.Battleship.Data
         {
             var result = Context.Users.Find(username);
             return result;
-
         }
         public bool AddUser(User user)
         {

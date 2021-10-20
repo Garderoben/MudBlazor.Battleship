@@ -1,12 +1,7 @@
-﻿using System;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MudBlazor.Battleship.Models;
 using Microsoft.AspNetCore.SignalR;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using MudBlazor.Battleship.Enums;
 using MudBlazor.Battleship.Services;
 
 namespace MudBlazor.Battleship.Hubs
@@ -25,6 +20,7 @@ namespace MudBlazor.Battleship.Hubs
         {
             this.gamemode = gamemode;
         }
+
         #region Groups
         public async Task JoinHubGroup(string group)
         {

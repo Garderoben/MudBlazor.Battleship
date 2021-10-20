@@ -19,9 +19,9 @@ namespace MudBlazor.Battleship.Models
         public string Password { get; set; }
 
         public GameLobby() { }
-        public GameLobby(Guid Id, string name, List<User> players, bool privete, string password)
+        public GameLobby(Guid id, string name, List<User> players, bool privete, string password)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Name = name;
             Players = players;
             Private = privete;
