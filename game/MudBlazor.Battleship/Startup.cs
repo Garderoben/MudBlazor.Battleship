@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MudBlazor.Battleship.Data;
 using Microsoft.EntityFrameworkCore;
+using MudBlazor.Battleship.Services;
 
 namespace MudBlazor.Battleship
 {
@@ -42,7 +43,7 @@ namespace MudBlazor.Battleship
             });
             services.AddDbContext<GameDataContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSingleton<GameMode, InMemoryGamemode>();
-            services.AddScoped<IGameData, GameData>();
+            services.AddScoped<IGameDbData, GameData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

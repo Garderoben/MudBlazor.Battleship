@@ -1,0 +1,9 @@
+﻿@layout GameStateHub
+@page "/game/lobby/{GameLobbyId:guid}"
+
+<MudText Color="Color.Default" Typo="Typo.h5" Inline="true">LobbyId:</MudText>
+<MudText Color="Color.Error" Typo="Typo.h5" Inline="true">@GameLobbyId</MudText>
+
+@code {
+    [Parameter] public Guid GameLobbyId { get; set; }
+}

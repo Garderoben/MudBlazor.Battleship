@@ -7,71 +7,52 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using MudBlazor.Battleship.Data;
+using MudBlazor.Battleship.Services;
 
 namespace MudBlazor.Battleship.Game
 {
-    public partial class Lobby : ComponentBase
+    public partial class Lobby
     {
-        HubConnection connection;
-        private User user = new User();
-        private bool isSignedIn;
+        [CascadingParameter] public GameStateHub Game { get; set; }
+
+        string NewMessage;
+        GameLobby NewGameLobby;
+
+        private bool isAddNewLobby;
+        private bool isValidNewLobby;
 
 
         public List<ChatMessage> _messages = new();
         public List<GameLobby> _lobbys = new();
 
-        [Inject] public NavigationManager NavigationManager { get; set; }
-        [Inject] private GameMode GameMode { get; set; }
-        [Inject] private IGameData GameData { get; set; }
-        [Inject] private ISnackbar Snackbar { get; set; }
-        [Inject] private IDialogService Dialog { get; set; }
-
         MudTextField<string> ChatTextField;
-        string NewMessage;
 
         protected override async Task OnInitializedAsync()
         {
-            connection = new HubConnectionBuilder().WithUrl(NavigationManager.ToAbsoluteUri("/gamehub")).Build();
-            connection.On<ChatMessage>(nameof (IGameClient.RecieveMessage), NewChatMessage);
-
-            await connection.StartAsync();
-        }
-
-        public async Task SignIn()
-        {
-            var ExsistingUser = GameData.GetUser(user.Username);
-            var NewUser = new User(user.Username, connection.ConnectionId);
-
-            if (ExsistingUser == null)
+            if (!Game.isSignedIn)
             {
-                try
-                {
-                    GameData.AddUser(NewUser);
-                }
-                catch
-                {
-                    Snackbar.Add("Failed to add new user", Severity.Error);
-                    throw;
-                }
+                NavMan.NavigateTo(NavMan.BaseUri);
             }
+            else
+            {
+                _lobbys = Game.Mode.Lobbys();
 
-            user = NewUser;
-
-            isSignedIn = true;
-
-            await connection.InvokeAsync("JoinLobbyGroup", "lobby");
-            await connection.InvokeAsync("SignIn", user.Username);
+                Game.Hub.On<ChatMessage>(nameof(IGameClient.RecieveMessage), RecieveChatMessage);
+                await Game.Hub.InvokeAsync("SignIn", Game.CurrentUser.Username);
+            }
         }
 
-        private void NewChatMessage(ChatMessage message)
+
+        #region Chat
+        private void RecieveChatMessage(ChatMessage message)
         {
             _messages.Add(message);
             StateHasChanged();
         }
 
-        public async Task LobbyMessage(string name, string message)
+        public async Task SendChat(string name, string message)
         {
-            await connection.InvokeAsync("SendChat", name, message);
+            await Game.Hub.InvokeAsync("SendChat", name, message);
             StateHasChanged();
         }
 
@@ -79,25 +60,45 @@ namespace MudBlazor.Battleship.Game
         {
             if (e.Code == "Enter")
             {
-                _ = LobbyMessage(user.Username, NewMessage);
+                _ = SendChat(Game.CurrentUser.Username, NewMessage);
                 ChatTextField.Clear();
                 StateHasChanged();
             }
         }
+        #endregion
 
-        private async Task NewLobby()
+        #region Lobby
+        private void RecieveGameLobby(GameLobby lobby)
         {
-            var lobby = new GameLobby();
-            var parameters = new DialogParameters { ["lobby"] = lobby };
-
-            var dialog = Dialog.Show<NewLobby>("Create Lobby", parameters);
-            var result = await dialog.Result;
-
-            if (!result.Cancelled)
-            {
-                lobby = (GameLobby)result.Data;
-                _lobbys.Add(lobby);
-            }
+            _lobbys.Add(lobby);
+            StateHasChanged();
         }
+        private void OnButtonClickNewLobby()
+        {
+            NewGameLobby = new GameLobby()
+            {
+                Id = Guid.NewGuid(),
+                Players = new List<User>()
+            };
+
+            isAddNewLobby = true;
+        }
+
+        private async Task SendNewLobby()
+        {
+            NewGameLobby.Players.Add(Game.CurrentUser);
+
+            await Game.Hub.InvokeAsync("SendNewLobby", NewGameLobby);
+            await JoinLobby(NewGameLobby.Id.ToString());
+        }
+
+        private async Task JoinLobby(string lobbyId)
+        {
+            await Game.Hub.InvokeAsync("LeaveHubGroup", "lobby");
+            await Game.Hub.InvokeAsync("JoinHubGroup", $"lobby-{lobbyId}");
+
+            NavMan.NavigateTo($"/game/lobby/{lobbyId}");
+        }
+        #endregion
     }
 }

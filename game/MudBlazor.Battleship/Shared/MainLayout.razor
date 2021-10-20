@@ -4,6 +4,7 @@
 <MudDialogProvider FullWidth="true" />
 <MudSnackbarProvider />
 
+
 <MudLayout>
     <MudAppBar Elevation="0">
         <MudText Typo="Typo.h5" Class="mudblazor-battleship-appbar-text">Battleship</MudText>
@@ -12,9 +13,7 @@
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/Garderoben/MudBlazor" Target="_blank" />
     </MudAppBar>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.False" Class="my-16 pt-16">
-            @Body
-        </MudContainer>
+        @Body
         <div class="mudblazor-battleship-bg">
             <MudBlazorBattleship />
             <MudBlazorBattleshipOcean />
@@ -23,13 +22,6 @@
 </MudLayout>
 
 @code {
-    bool _drawerOpen = true;
-
-    void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
-
     MudTheme MudBlazorBattleship = new MudTheme()
     {
         Palette = new Palette()

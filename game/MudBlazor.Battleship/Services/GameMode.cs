@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using MudBlazor.Battleship.Models;
+using System.Collections.Generic;
 
-namespace MudBlazor.Battleship.Models
+namespace MudBlazor.Battleship.Services
 {
     public interface GameMode
     {
-        List<User> GetUsers();
-        List<GameLobby> GetLobbys();
+        List<User> OnlineUsers();
+        List<GameLobby> Lobbys();
     }
 
     public class InMemoryGamemode : GameMode
@@ -13,12 +14,12 @@ namespace MudBlazor.Battleship.Models
         private List<User> GameUsers = new List<User>();
         private List<GameLobby> GameLobbys = new List<GameLobby>();
         
-        public List<User> GetUsers()
+        public List<User> OnlineUsers()
         {
             return GameUsers;
         }
 
-        public List<GameLobby> GetLobbys()
+        public List<GameLobby> Lobbys()
         {
             return GameLobbys;
         }

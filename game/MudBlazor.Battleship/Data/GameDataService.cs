@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace MudBlazor.Battleship.Data
 {
-    public interface IGameData
+    public interface IGameDbData
     {
         public User GetUser(string username);
         public bool AddUser(User user);
     }
-    public class GameData : IGameData
+    public class GameData : IGameDbData
     {
         public GameDataContext Context { init; protected get; }
         public GameData(GameDataContext context)

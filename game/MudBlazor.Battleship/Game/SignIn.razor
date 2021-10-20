@@ -1,0 +1,18 @@
+﻿@layout GameStateHub
+@page "/"
+
+
+<MudGrid>
+    <MudItem xs="12" sm="12" md="3" lg="2" Class="d-flex">
+        <MudPaper Elevation="0" Height="300px" Width="100%" Class="mud-transparent mt-0 mt-md-16 pt-md-16">
+            <MudText Typo="Typo.h5">Sign In</MudText>
+            <EditForm Model="@user" OnValidSubmit="CheckUserDetails">
+                <DataAnnotationsValidator />
+                <div class="d-flex align-center" style="height:100px">
+                    <MudTextField @bind-Value="@user.Username" For="@(() => user.Username)" Label="Username" Variant="Variant.Text" />
+                </div>
+                <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" DisableElevation="true" FullWidth="true" Class="mt-6">Sign In</MudButton>
+            </EditForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
