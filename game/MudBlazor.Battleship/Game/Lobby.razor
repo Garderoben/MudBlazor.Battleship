@@ -5,25 +5,6 @@
 @if(Game.isSignedIn)
 {
     <MudGrid>
-        <MudItem xs="12" sm="12" md="3" Class="py-0">
-            <MudButton OnClick="OnButtonClickNewLobby" Color="Color.Primary" Class="mb-7">New Lobby</MudButton>
-        </MudItem>
-        <MudItem xs="12" sm="12" md="6" Class="py-0">
-            @if (isAddNewLobby)
-            {
-                <MudForm @bind-IsValid="@isValidNewLobby" Class="d-flex align-start justify-space-between">
-                    <MudTooltip Text="Password Protected">
-                        <MudToggleIconButton @bind-Toggled="@NewGameLobby.Private" Variant="Variant.Outlined" Icon="@Icons.Outlined.LockOpen" Color="@Color.Default" Title="Open" ToggledIcon="@Icons.Outlined.Lock" ToggledColor="@Color.Primary" ToggledTitle="Private" />
-                    </MudTooltip>
-                    <MudTextField @bind-Value="@NewGameLobby.Name" Validation="@(new Func<string, IEnumerable<string>>(FieldValidation))" Required="true" Placeholder="Name" Counter="12" HelperText="Lobby Name" Variant="Variant.Outlined" Margin="Margin.Dense" Class="ml-4 mr-2 my-0" />
-                    <MudTextField @bind-Value="@NewGameLobby.Password" Validation="@(new Func<string, IEnumerable<string>>(FieldValidation))" Required="NewGameLobby.Private" Placeholder="Password" Counter="12" HelperText="Lobby Password" Variant="Variant.Outlined" Margin="Margin.Dense" Class="@(NewGameLobby.Private? "ml-2 mr-4 my-0 visible" : "ml-2 mr-4 my-0 invisible")"/>
-                    <MudButton OnClick="SendNewLobby" Disabled="!isValidNewLobby" V Color="Color.Primary">Create Lobby</MudButton>
-                </MudForm>
-            }
-        </MudItem>
-        <MudItem xs="12" sm="12" md="3" Class="py-0">
-            
-        </MudItem>
         <MudItem xs="12" sm="12" md="3">
             <MudPaper MinHeight="50vh" Height="100%" Elevation="0" Class="pb-4">
                 <div class="px-5 py-3 mb-2 battleship-lobby-card-header">
@@ -44,39 +25,62 @@
         </MudItem>
         <MudItem xs="12" sm="12" md="6">
             <MudPaper Elevation=0 Height="100%" Class="d-flex flex-column">
-                <MudTable Height="100%" Class="flex-grow-1" Elevation="0" Items="@_lobbys" Hover="true" RowClass="cursor-pointer" @bind-SelectedItem="@SelectedGameLobby">
-                    <HeaderContent>
-                        <MudTh>MAC</MudTh>
-                        <MudTh>Lobby Name</MudTh>
-                        <MudTh>Players</MudTh>
-                        <MudTh colspan="2">Status</MudTh>
-                    </HeaderContent>
-                    <RowTemplate>
-                        <MudTh>
-                            <MudTooltip Arrow="true" Text="MudBlazor Anti-Cheat" Placement="Placement.Left">
-                                <MudIcon Icon="@Icons.TwoTone.VerifiedUser" Color="Color.Success" />
-                            </MudTooltip>                    
-                        </MudTh>
-                        <MudTd>@context.Name</MudTd>
-                        <MudTd>@context.Players.Count() / 2</MudTd>
-                        <MudTd>In Lobby</MudTd>
-                        <MudTd Style="text-align: right;">
-                            @if(context.Private)
-                            {
-                                 <MudTooltip Arrow="true" Text="Password Protected" Placement="Placement.Right">
-                                    <MudIcon Icon="@Icons.Outlined.Lock" />
-                                </MudTooltip>      
-                            }
-                        </MudTd>
-                    </RowTemplate>
-                    <NoRecordsContent>
-                        <MudPaper MinHeight="50vh" Height="100%" Elevation="0" Class="pa-4 d-flex align-center justify-center">
-                            <MudText Typo="Typo.h5">No Hosted Lobbys</MudText>
+                @if(isAddNewLobby)
+                {
+                    <MudPaper Height="100%" Class="d-flex flex-column flex-grow-1" Elevation="0">
+                        <div class="px-5 py-3 mb-7 battleship-lobby-card-header">
+                            <MudText Typo="Typo.h5">New Lobby</MudText>
+                        </div>
+                        <MudPaper MinHeight="50vh" Height="100%" Elevation="0" Class="d-flex align-center justify-center px-16">
+                            <div class="d-block mud-width-full">
+                                <MudTextField @bind-Value="@NewGameLobby.Name" Validation="@(new Func<string, IEnumerable<string>>(FieldValidation))" Label="Lobby Name" Counter="25" HelperText="Name of the hosted lobby" HelperTextOnFocus="true" Immediate="true" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@(NewGameLobby.Private? Icons.Outlined.Lock : Icons.Outlined.LockOpen)" OnAdornmentClick="SetPrivateLobby" Class="mb-5" />
+                                <MudTextField @bind-Value="@NewGameLobby.Password" Validation="@(new Func<string, IEnumerable<string>>(FieldValidation))" Disabled="!NewGameLobby.Private" Placeholder="Password" Counter="25" HelperText="@(NewGameLobby.Private? "" : "Click the lock to enable private lobby")" Immediate="true" Margin="Margin.Dense" Class="mt-5" />
+                            </div>
                         </MudPaper>
-                    </NoRecordsContent>
-                </MudTable>
+                    </MudPaper>
+                }
+                else{
+                    <MudTable Height="100%" Class="flex-grow-1" Elevation="0" Items="@_lobbys" Hover="true" RowClass="cursor-pointer" @bind-SelectedItem="@SelectedGameLobby">
+                        <HeaderContent>
+                            <MudTh>MAC</MudTh>
+                            <MudTh>Lobby Name</MudTh>
+                            <MudTh>Players</MudTh>
+                            <MudTh colspan="2">Status</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTh>
+                                <MudTooltip Arrow="true" Text="MudBlazor Anti-Cheat" Placement="Placement.Left">
+                                    <MudIcon Icon="@Icons.TwoTone.VerifiedUser" Color="Color.Success" />
+                                </MudTooltip>                    
+                            </MudTh>
+                            <MudTd>@context.Name</MudTd>
+                            <MudTd>@context.Players.Count() / 2</MudTd>
+                            <MudTd>In Lobby</MudTd>
+                            <MudTd Style="text-align: right;">
+                                @if(context.Private)
+                                {
+                                        <MudTooltip Arrow="true" Text="Password Protected" Placement="Placement.Right">
+                                        <MudIcon Icon="@Icons.Outlined.Lock" />
+                                    </MudTooltip>      
+                                }
+                            </MudTd>
+                        </RowTemplate>
+                        <NoRecordsContent>
+                            <MudPaper MinHeight="50vh" Height="100%" Elevation="0" Class="pa-4 d-flex align-center justify-center">
+                                <MudText Typo="Typo.h5">No Hosted Lobbys</MudText>
+                            </MudPaper>
+                        </NoRecordsContent>
+                    </MudTable>
+                }
                 <MudToolBar>
-                    <MudButton OnClick="JoinLobby" Disabled="@(SelectedGameLobby == null? true : false)" Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary">Join Lobby</MudButton>
+                    @if(isAddNewLobby){
+                        <MudSpacer />
+                        <MudButton OnClick="CancelSendNewLobby" Variant="Variant.Filled" DisableElevation="true" Class="mx-4">Cancel</MudButton>
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" DisableElevation="true" OnClick="SendNewLobby">Create Lobby</MudButton>
+                    }else{
+                        <MudButton OnClick="JoinLobby" Disabled="@(SelectedGameLobby == null? true : false)" Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary">Join Lobby</MudButton>
+                        <MudButton OnClick="OnClickNewLobby" Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" Class="mx-4">New Lobby</MudButton>
+                    }
                 </MudToolBar>
             </MudPaper>
         </MudItem>
@@ -90,8 +94,8 @@
 @code {
     public IEnumerable<string> FieldValidation(string ch)
     {
-        if (!string.IsNullOrEmpty(ch) && 12 < ch?.Length)
-            yield return "Max 12 characters";
+        if (!string.IsNullOrEmpty(ch) && 25 < ch?.Length)
+            yield return "Max 25 characters";
         else if (!string.IsNullOrEmpty(ch) && 4 > ch?.Length)
             yield return "Min 4 characters";
     }

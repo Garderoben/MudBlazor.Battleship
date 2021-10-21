@@ -26,6 +26,7 @@ namespace MudBlazor.Battleship.Game
 
         public List<ChatMessage> _messages = new();
         public List<GameLobby> _lobbys = new();
+        public List<GameLobby> _templist = new();
 
         protected override async Task OnInitializedAsync()
         {
@@ -58,15 +59,22 @@ namespace MudBlazor.Battleship.Game
             _lobbys.Add(lobby);
             StateHasChanged();
         }
-        private void OnButtonClickNewLobby()
+        private void OnClickNewLobby()
         {
             NewGameLobby = new GameLobby()
             {
                 Id = Guid.NewGuid(),
                 Players = new List<User>()
             };
-
+            _templist = _lobbys;
+            _lobbys = new List<GameLobby>();
             isAddNewLobby = true;
+        }
+
+        private void CancelSendNewLobby()
+        {
+            _lobbys = _templist;
+            isAddNewLobby = false;
         }
 
         private async Task SendNewLobby()
@@ -75,6 +83,11 @@ namespace MudBlazor.Battleship.Game
 
             await Game.Hub.InvokeAsync("SendNewLobby", NewGameLobby);
             await CreateNewLobby(NewGameLobby.Id);
+        }
+
+        void SetPrivateLobby()
+        {
+            NewGameLobby.Private = !NewGameLobby.Private;
         }
 
         private async Task CreateNewLobby(Guid Id)

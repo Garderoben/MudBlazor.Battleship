@@ -10,12 +10,12 @@ namespace MudBlazor.Battleship.Models
         public Guid Id { get; set; }
 
         [Required]
-        [StringLength(12, MinimumLength = 4)]
+        [StringLength(25, MinimumLength = 4)]
         public string Name { get; set; }
         public List<User> Players { get; set; }
         public bool Private { get; set; }
 
-        [StringLength(12, MinimumLength = 4)]
+        [StringLength(25, MinimumLength = 4)]
         public string Password { get; set; }
 
         public GameLobby() { }
