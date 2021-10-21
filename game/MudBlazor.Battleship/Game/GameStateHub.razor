@@ -1,15 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @layout MainLayout
 
-@*@page "/game/lobby"
-@page "/game/session/lobby/{GameSessionLobbyId:guid}"
-@page "/game/session/battle/{GameSessionBattleId:guid}"*@
-
-@*@if (Hub != null)
-{
-    <MudText Color="Color.Default" Typo="Typo.h5" Inline="true">ConnectionId:</MudText>
-    <MudText Color="Color.Error" Typo="Typo.h5" Inline="true">@Hub.ConnectionId</MudText>
-}*@
 <MudContainer MaxWidth="MaxWidth.False" Class="my-16 pt-16">
     <CascadingValue Value="this">
         @Body
