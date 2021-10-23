@@ -1,0 +1,70 @@
+﻿@layout GameStateHub
+@*@page "/game/battle/"*@
+@page "/"
+
+<MudGrid>
+    <MudItem xs="6">
+        <MudPaper Elevation=0 Height="100%">
+            <div class="px-5 py-3 mb-2  battleship-lobby-card-header">
+                <MudText Typo="Typo.h5">Player 1</MudText>
+            </div>
+            <div class="d-flex justify-center align-center pa-4">
+                <div class="wrapper">
+                    <div class="x-cordinates">
+                        @for (int i = 0; i < 10; i++)
+                        {
+                            <div class="grid-item">@i</div>
+                        }
+                    </div>
+                    <div class="y-cordinates">
+                        @for (int i = 0; i < 10; i++)
+                        {
+                            <div class="grid-item">@i</div>
+                        }
+                    </div>
+                    <div class="grid-cordinates">
+                        @for (int i = 0; i < 100; i++)
+                        {
+                            <div class="grid-item">@i</div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </MudPaper>
+    </MudItem>
+     <MudItem xs="6">
+            <MudPaper Elevation=0 Height="100%">
+                <div class="px-5 py-3 mb-2  battleship-lobby-card-header">
+                    <MudText Typo="Typo.h5">Player 2</MudText>
+                </div>
+                <div class="d-flex justify-center align-center pa-4">
+                    <div class="wrapper">
+                        <div class="x-cordinates">
+                            @for (int i = 0; i < 10; i++)
+                            {
+                                <div class="grid-item">@i</div>
+                            }
+                        </div>
+                        <div class="y-cordinates">
+                            @for (int i = 0; i < 10; i++)
+                            {
+                                <div class="grid-item">@i</div>
+                            }
+                        </div>
+                        <div class="grid-cordinates">
+                            @for (int i = 0; i < 100; i++)
+                            {
+                                <div class="grid-item">@i</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </MudPaper>
+        </MudItem>
+</MudGrid>
+
+
+
+@code {
+
+}
