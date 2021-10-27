@@ -1,29 +1,24 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MudBlazor.Battleship.Components;
+using MudBlazor.Battleship.Game;
 using MudBlazor.Battleship.Models;
+using System;
 using System.Collections.Generic;
+using MudBlazor.Battleship.Components;
 using System.Threading.Tasks;
 
-namespace MudBlazor.Battleship.Game
+namespace MudBlazor.Battleship.Components
 {
-    public partial class BattleshipGame
+    public partial class BattlePlayerView
     {
         [CascadingParameter] public GameStateHub Game { get; set; }
 
         private List<string> DevLog = new List<string>();
         private BattleGrid BattleGrid = new();
         private Player PlayerOne = null;
-
-        protected override async Task OnInitializedAsync()
+        public void AddLogMessage(string message)
         {
-            if (!Game.isSignedIn)
-            {
-                NavMan.NavigateTo(NavMan.BaseUri);
-            }
-            else
-            {
-                PlayerOne = new Player(Game.CurrentUser);
-            }
+            DevLog.Add(message);
+            StateHasChanged();
         }
     }
 }

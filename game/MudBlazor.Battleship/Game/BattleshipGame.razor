@@ -1,34 +1,4 @@
 ﻿@layout GameStateHub
 @page "/game/battle/"
 
-<CascadingValue Value="this">
-    <MudGrid>
-        <MudItem xs="6">
-            <MudCard Elevation="0">
-                <MudCardHeader Class="battleship-lobby-card-header">
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h5">@Game.CurrentUser.Username</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent>
-                    <BattleGrid />
-                </MudCardContent>
-            </MudCard>
-        </MudItem>
-         <MudItem xs="6">
-                <MudCard Elevation="0">
-                <MudCardHeader Class="battleship-lobby-card-header">
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h5">Dev Tools</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent>
-                    @foreach(var message in DevLog)
-                    {
-                        <MudText Typo="Typo.body2">@message</MudText>
-                    }
-                </MudCardContent>
-            </MudCard>
-         </MudItem>
-    </MudGrid>
-</CascadingValue>
+<BattlePlayerView/>

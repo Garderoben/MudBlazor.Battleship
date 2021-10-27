@@ -2,7 +2,7 @@
 
 namespace MudBlazor.Battleship.Models
 {
-    public abstract class Ship
+    public abstract class Warship
     {
         public Class Class { get; set; }
         public int Size { get; set; }
@@ -16,7 +16,7 @@ namespace MudBlazor.Battleship.Models
         }
     }
 
-    public class AircraftCarrier : Ship
+    public class AircraftCarrier : Warship
     {
         public AircraftCarrier()
         {
@@ -25,7 +25,7 @@ namespace MudBlazor.Battleship.Models
         }
     }
 
-    public class Cruiser : Ship
+    public class Cruiser : Warship
     {
         public Cruiser()
         {
@@ -33,7 +33,7 @@ namespace MudBlazor.Battleship.Models
             Size = 4;
         }
     }
-    public class Destroyer : Ship
+    public class Destroyer : Warship
     {
         public Destroyer()
         {
@@ -41,7 +41,7 @@ namespace MudBlazor.Battleship.Models
             Size = 3;
         }
     }
-    public class Submarine : Ship
+    public class Submarine : Warship
     {
         public Submarine()
         {

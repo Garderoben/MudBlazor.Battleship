@@ -6,19 +6,19 @@ namespace MudBlazor.Battleship.Models
     public class Player
     {
         public User User { get; set; }
-        public List<Ship> Ships { get; set; }
+        public List<Warship> Warships { get; set; }
         public bool HasLost
         {
             get
             {
-                return Ships.All(x => x.IsSunk);
+                return Warships.All(x => x.IsSunk);
             }
         }
 
         public Player(User user)
         {
             User = user;
-            Ships = new List<Ship>()
+            Warships = new List<Warship>()
             {
                 new AircraftCarrier(),
                 new Cruiser(),

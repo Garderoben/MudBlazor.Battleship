@@ -6,7 +6,7 @@ namespace MudBlazor.Battleship.Models
     {
         public Guid Id { get; set; }
         public Coordinates Coordinates { get; set; }
-        public Ship Ship { get; set; }
+        public Warship Warship { get; set; }
         public GridSection(int row, int column)
         {
             Coordinates = new Coordinates(row, column);
@@ -15,7 +15,7 @@ namespace MudBlazor.Battleship.Models
         {
             get
             {
-                if(Ship != null)
+                if(Warship != null)
                 {
                     return true;
                 }
