@@ -1,10 +1,11 @@
 ﻿@namespace MudBlazor.Battleship.Components
 
-<div @onclick="@OnSectionClick" class="grid-item flex-column mud-ripple">
-    <MudText Typo="Typo.overline">
-        @Section.Coordinates.GetName()
-    </MudText>
-    <MudText Typo="Typo.overline">
-        @($"{Section.Coordinates.Row}-{Section.Coordinates.Column}")
-    </MudText>
+<div class="@GridClass">
+    @Section.Coordinates.GetName()<br/>@($"{Section.Coordinates.Row}-{Section.Coordinates.Column}")
+    <div class="@DropClass"  @ondrop="HandleDrop" @ondragenter="HandleDragEnter" @ondragleave="HandleDragLeave" ondragover="event.preventDefault();" ondragstart="event.dataTransfer.setData('', event.target.id);">
+         @if(Section.Warship != null)
+        {
+            <Ship Class="absolute" Warship="Section.Warship" />
+        }
+    </div>
 </div>

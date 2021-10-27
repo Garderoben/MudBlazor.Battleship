@@ -1,0 +1,43 @@
+﻿@namespace MudBlazor.Battleship.Components
+@using MudBlazor.Battleship.Enums
+@using MudBlazor.Extensions
+@using MudBlazor.Utilities
+
+<div class="flex">
+    <div class="@DropClass" @ondrop="HandleDrop" @ondragenter="HandleDragEnter" @ondragleave="HandleDragLeave">
+        @foreach(var ship in Warships)
+        {
+            <Ship Warship="ship" />
+        }
+    </div>
+</div>
+
+@code {
+    [CascadingParameter] BattlePlayerView DropContainer { get; set; }
+
+    List<Warship> Warships = new List<Warship>();
+
+    protected string DropClass =>
+        new CssBuilder("warship-dropzone port")
+          .AddClass($"can-drop", DropShip)
+          .AddClass($"no-drop", !DropShip)
+        .Build();
+
+    private bool DropShip;
+
+    protected override void OnParametersSet()
+    {
+        Warships.Clear();
+        Warships.AddRange(DropContainer.Player.Warships.Where(x => x.Status == ShipStatus.InPort));
+    }
+
+    private void HandleDragEnter() => DropShip = true;
+    private void HandleDragLeave() => DropShip = false;
+
+    private async Task HandleDrop()
+    {
+        DropShip = false;
+
+        await DropContainer.UpdateGridAsync(ShipStatus.InPort);
+    }
+}

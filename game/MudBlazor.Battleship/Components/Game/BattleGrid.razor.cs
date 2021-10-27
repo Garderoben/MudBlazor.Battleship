@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using MudBlazor.Battleship.Models;
 using System.Collections.Generic;
 
@@ -10,6 +11,7 @@ namespace MudBlazor.Battleship.Components
         public List<string> ColumnLabels = new() { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 
         public List<GridSection> Sections { get; set; }
+        
 
         public BattleGrid()
         {

@@ -110,7 +110,6 @@
         padding: 6px;
         line-height: normal;
         border-radius: 2px;
-        user-select: none;
     }
 
 .grid-labels .grid-item {
@@ -153,11 +152,62 @@
         justify-content: center;
         align-items: center;
         font-size: 12px;
-        border: 1px solid var(--mud-palette-table-lines);
+        /*border: 1px solid var(--mud-palette-table-lines);*/
         color: var(--mud-palette-text-secondary);
     }
 
         .battle-grid .grid-item:hover {
-            cursor: pointer;
             background-color: var(--mud-palette-action-default-hover);
         }
+
+        .battle-grid .grid-item .mud-text {
+            user-select:none;
+        }
+
+
+/*.no-drop {
+    border: 2px dashed red;
+}*/
+
+.can-drop {
+    border: 2px dashed green;
+}
+
+.warship-dropzone {
+    
+}
+
+.warship-dropzone.port {
+    display: flex;
+    justify-content: space-around;
+}
+
+    .warship-dropzone.battle {
+        position: absolute;
+        height: 64px;
+        width: 64px;
+    }
+
+        .warship-dropzone.battle .mud-warship {
+            color: var(--mud-palette-dark-text);
+            background-color: var(--mud-palette-dark);
+            height: 100%;
+            width: 100%;
+        }
+
+.mud-warship {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    cursor: grab;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+    .draggable:active {
+        cursor: grabbing;
+    }
+
+.dragging {
+    cursor: grabbing;
+}

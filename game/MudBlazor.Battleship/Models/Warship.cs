@@ -1,10 +1,13 @@
 ﻿using MudBlazor.Battleship.Enums;
+using System;
 
 namespace MudBlazor.Battleship.Models
 {
     public abstract class Warship
     {
+        public Guid Id { get; set; }
         public Class Class { get; set; }
+        public ShipStatus Status { get; set; }
         public int Size { get; set; }
         public int Hits { get; set; }
         public bool IsSunk
@@ -20,6 +23,7 @@ namespace MudBlazor.Battleship.Models
     {
         public AircraftCarrier()
         {
+            Id = Guid.NewGuid();
             Class = Class.AircraftCarrier;
             Size = 5;
         }
@@ -29,6 +33,7 @@ namespace MudBlazor.Battleship.Models
     {
         public Cruiser()
         {
+            Id = Guid.NewGuid();
             Class = Class.Cruiser;
             Size = 4;
         }
@@ -37,6 +42,7 @@ namespace MudBlazor.Battleship.Models
     {
         public Destroyer()
         {
+            Id = Guid.NewGuid();
             Class = Class.Destroyer;
             Size = 3;
         }
@@ -45,6 +51,7 @@ namespace MudBlazor.Battleship.Models
     {
         public Submarine()
         {
+            Id = Guid.NewGuid();
             Class = Class.Submarine;
             Size = 2;
         }
