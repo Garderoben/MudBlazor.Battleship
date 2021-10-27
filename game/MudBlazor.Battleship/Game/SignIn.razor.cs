@@ -20,5 +20,16 @@ namespace MudBlazor.Battleship.Game
             await Game.JoinChatGroup(GroupType.Global);
             NavMan.NavigateTo("game/lobby");
         }
+
+        public async Task OnSignInDevClick()
+        {
+            user.Username = "Garderoben";
+            Game.CurrentUser = user;
+            Game.DbData.AddUser(Game.CurrentUser);
+            Game.isSignedIn = true;
+
+            await Game.JoinChatGroup(GroupType.Global);
+            NavMan.NavigateTo("game/battle");
+        }
     }
 }

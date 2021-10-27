@@ -1,0 +1,24 @@
+﻿@namespace MudBlazor.Battleship.Components
+
+ <div class="d-flex justify-center align-center pa-4">
+    <div class="wrapper">
+        <div class="grid-labels grid-axis-x">
+            @foreach(var label in ColumnLabels)
+            {
+                <div class="grid-item">@label</div>
+            }
+        </div>
+        <div class="grid-labels grid-axis-y">
+            @foreach(var label in RowLabels)
+            {
+                <div class="grid-item">@label</div>
+            }
+        </div>
+        <div class="battle-grid">
+            @foreach(var section in Sections)
+            {
+                <BattleGridSection Section="section" />
+            }
+        </div>
+    </div>
+</div>

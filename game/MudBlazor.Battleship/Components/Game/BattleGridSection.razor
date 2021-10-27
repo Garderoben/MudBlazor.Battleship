@@ -1,0 +1,10 @@
+﻿@namespace MudBlazor.Battleship.Components
+
+<div @onclick="@OnSectionClick" class="grid-item flex-column mud-ripple">
+    <MudText Typo="Typo.overline">
+        @Section.Coordinates.GetName()
+    </MudText>
+    <MudText Typo="Typo.overline">
+        @($"{Section.Coordinates.Row}-{Section.Coordinates.Column}")
+    </MudText>
+</div>

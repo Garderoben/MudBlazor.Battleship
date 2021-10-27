@@ -110,6 +110,7 @@
         padding: 6px;
         line-height: normal;
         border-radius: 2px;
+        user-select: none;
     }
 
 .grid-labels .grid-item {
@@ -148,7 +149,6 @@
 }
 
     .battle-grid .grid-item {
-        user-select: none;
         display: flex;
         justify-content: center;
         align-items: center;
