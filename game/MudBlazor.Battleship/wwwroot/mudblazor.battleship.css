@@ -145,6 +145,8 @@
     grid-area: grid-cordinates;
     grid-template-columns: repeat(10, 1fr);
     width: fit-content;
+    border: 1px solid var(--mud-palette-table-lines);
+    border-radius: var(--mud-default-borderradius);
 }
 
     .battle-grid .grid-item {
@@ -165,22 +167,21 @@
         }
 
 
-/*.no-drop {
-    border: 2px dashed red;
-}*/
-
-.can-drop {
-    border: 2px dashed green;
+.dropzone-can-drop {
+    background-color: var(--mud-palette-success-hover);
 }
+
+/*.dropzone-no-drop:hover {
+    background-color: var(--mud-palette-error-hover);
+}*/
 
 .warship-dropzone {
     
 }
 
-.warship-dropzone.port {
-    display: flex;
-    justify-content: space-around;
-}
+    .warship-dropzone.port .drydock {
+        
+    }
 
     .warship-dropzone.battle {
         position: absolute;
@@ -203,10 +204,6 @@
     border-radius: 5px;
     padding: 5px 10px;
 }
-
-    .draggable:active {
-        cursor: grabbing;
-    }
 
 .dragging {
     cursor: grabbing;

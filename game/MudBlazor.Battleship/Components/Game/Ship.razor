@@ -12,6 +12,8 @@
     [Parameter] public string Class { get; set; }
     [Parameter] public Warship Warship { get; set; }
 
+    private bool rotate;
+
     protected string ShipClass =>
         new CssBuilder("mud-warship")
           .AddClass(Class)

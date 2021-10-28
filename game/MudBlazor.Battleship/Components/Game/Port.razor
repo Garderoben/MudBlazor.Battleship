@@ -3,14 +3,18 @@
 @using MudBlazor.Extensions
 @using MudBlazor.Utilities
 
-<div class="flex">
-    <div class="@DropClass" @ondrop="HandleDrop" @ondragenter="HandleDragEnter" @ondragleave="HandleDragLeave">
-        @foreach(var ship in Warships)
-        {
+
+
+<div class="@DropClass" @ondrop="HandleDrop" @ondragenter="HandleDragEnter" @ondragleave="HandleDragLeave">
+    @foreach(var ship in Warships)
+    {
+        <div class="drydock">
             <Ship Warship="ship" />
-        }
-    </div>
+        </div>
+    }
 </div>
+
+
 
 @code {
     [CascadingParameter] BattlePlayerView DropContainer { get; set; }

@@ -10,6 +10,8 @@ using System.Linq;
 
 namespace MudBlazor.Battleship.Components
 {
+    public record ShipmentPlacementRequestedInfo(Warship Ship, Coordinates Coordinates);
+
     public partial class BattlePlayerView
     {
         [CascadingParameter] public GameStateHub Game { get; set; }
@@ -50,6 +52,33 @@ namespace MudBlazor.Battleship.Components
                 StateHasChanged();
             }
         }
+
+        public void SetShipToSections(Warship ship, IEnumerable<Coordinates> coordinatesWithShip)
+        {
+            foreach (var coordinate in coordinatesWithShip)
+            {
+                OnShipmentPlacementRequested(this, new ShipmentPlacementRequestedInfo(ship, coordinate));
+            }
+
+            InvokeAsync(StateHasChanged);
+        }
+
+        public bool IsDropPossible(Warship ship, Coordinates coordinate)
+        {
+            ////find invalid sections
+            //foreach(var potentialConflictingCoordinate in ...)
+            //        {
+            //    if(BattleGrid.IsSectionOccupied(potentialConflictingCoordinate) == true)
+            //    {
+            //        return false;     
+            //    }
+            //}
+
+            return true;
+        }
+
+        public event EventHandler<ShipmentPlacementRequestedInfo> OnShipmentPlacementRequested;
+
 
     }
 }

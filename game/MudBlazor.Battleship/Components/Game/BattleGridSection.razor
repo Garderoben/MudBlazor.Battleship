@@ -1,7 +1,7 @@
 ﻿@namespace MudBlazor.Battleship.Components
 
 <div class="@GridClass">
-    @Section.Coordinates.GetName()<br/>@($"{Section.Coordinates.Row}-{Section.Coordinates.Column}")
+    @Section.Coordinates.GetName()
     <div class="@DropClass"  @ondrop="HandleDrop" @ondragenter="HandleDragEnter" @ondragleave="HandleDragLeave" ondragover="event.preventDefault();" ondragstart="event.dataTransfer.setData('', event.target.id);">
          @if(Section.Warship != null)
         {
